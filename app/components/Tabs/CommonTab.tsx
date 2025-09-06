@@ -19,7 +19,16 @@ const mockData = {
       "Go",
       "Typescript",
     ],
-    socialMedia: "Linkedin , Github",
+    socialMedia: [
+      {
+        name: "Linkedin",
+        url: "https://www.linkedin.com/in/vegadjay",
+      },
+      {
+        name: "Github",
+        url: "https://github.com/vegadjay",
+      },
+    ],
     hourlyRate: "$15 - $40/hour",
     workPreference: "Both",
     weeklyAvailability: "40 hrs/week",
@@ -58,6 +67,8 @@ const mockData = {
         "Go",
         "Typescript",
       ],
+      liveDemo: "https://rajwadiposhak.vercel.app",
+      github: "https://github.com/rajwadi-poshak",
     },
     {
       id: 2,
@@ -66,6 +77,8 @@ const mockData = {
       description:
         "Real-time collaborative task management application with drag-and-drop functionality and team chat integration.",
       technologies: ["React", "Node.js", "Socket.io", "MongoDB", "Typescript"],
+      liveDemo: "https://rajwadiposhak.vercel.app",
+      github: "https://github.com/rajwadi-poshak",
     },
     {
       id: 3,
@@ -74,6 +87,8 @@ const mockData = {
       description:
         "Interactive dashboard for business analytics with charts, graphs, and real-time data updates.",
       technologies: ["React", "D3.js", "Python", "FastAPI", "PostgreSQL"],
+      liveDemo: "https://rajwadiposhak.vercel.app",
+      github: "https://github.com/rajwadi-poshak",
     },
   ],
 };
@@ -83,46 +98,51 @@ export function CommonTab() {
 
   return (
     <div className="space-y-6">
-      <SectionCard title="common">
+      <SectionCard title="Profile">
         <div className="flex flex-col gap-4">
-          {/* Responsive flex: col on mobile, row on sm+ */}
           <div className="flex flex-col sm:flex-row gap-6 items-start">
-            {/* Avatar */}
             <img
               src={profile.imgSrc}
-              alt=""
+              alt="Profile Picture"
               className="h-24 w-24 rounded-full object-cover border border-neutral-200"
             />
-            {/* Main Info */}
             <div className="flex-1">
-              <div className="flex flex-col sm:flex-row flex-wrap justify-between gap-8">
-                {/* Left Column */}
-                <div className="flex flex-col gap-1 min-w-[200px]">
-                  <div className="text-xs opacity-70">Name</div>
-                  <div className="font-medium text-sm">{profile.name}</div>
-                  <div className="text-xs opacity-70 mt-2">Role</div>
-                  <div className="text-sm">{profile.title}</div>
-                  <div className="text-xs opacity-70 mt-2">Bio</div>
-                  <div className="text-sm opacity-80">
-                    {profile.description}
+              {/* Name, Role, and Social Media side by side */}
+              <div className="flex flex-col gap-1 min-w-[200px]">
+                <div className="flex items-center justify-between gap-4">
+                  <div>
+                    <div className="text-xs opacity-70">Name</div>
+                    <div className="font-medium text-sm">{profile.name}</div>
+                    <div className="text-xs opacity-70 mt-2">Role</div>
+                    <div className="text-sm">{profile.title}</div>
+                  </div>
+                  <div className="flex flex-col items-end">
+                    <div className="text-xs opacity-70">Social Media</div>
+                    <div className="flex gap-2 mt-1">
+                      {profile.socialMedia.map((media) => (
+                        <a
+                          key={media.name}
+                          href={media.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs text-gray-900 hover:underline"
+                        >
+                          {media.name}
+                        </a>
+                      ))}
+                    </div>
                   </div>
                 </div>
-                {/* Right Column */}
+                <div className="text-xs opacity-70 mt-2">Bio</div>
+                <div className="text-sm opacity-80">{profile.description}</div>
+              </div>
+              <div className="flex flex-col sm:flex-row flex-wrap justify-between gap-8 mt-4">
                 <div className="flex flex-col gap-2 min-w-[220px] flex-1">
-                  <div className="flex flex-col">
-                    <span className="text-xs opacity-70">
-                      Social Media Link
-                    </span>
-                    <span className="text-sm">{profile.socialMedia}</span>
-                  </div>
                   <div className="flex flex-col">
                     <span className="text-xs opacity-70">Hourly Rate</span>
                     <span className="text-sm">{profile.hourlyRate}</span>
                   </div>
                 </div>
-              </div>
-              {/* Second Row: Weekly Availability, Main Hourly Rate, Work Preference */}
-              <div className="flex flex-col sm:flex-row flex-wrap gap-8 mt-4">
                 <div className="flex flex-col min-w-[120px]">
                   <span className="text-xs opacity-70">
                     Weekly Availability
@@ -138,7 +158,6 @@ export function CommonTab() {
                   <span className="text-sm">{profile.workPreference}</span>
                 </div>
               </div>
-              {/* Technical Skills */}
               <div className="mt-4">
                 <span className="text-xs opacity-70">Technical Skills</span>
                 <div className="mt-2 flex flex-wrap gap-2">
@@ -173,10 +192,34 @@ export function CommonTab() {
           {projects.map((project) => (
             <div
               key={project.id}
-              className="rounded-lg border border-neutral-200 bg-neutral-50 p-4"
+              className="rounded-lg border border-neutral-200 bg-neutral-50 p-2"
             >
-              <div className="text-sm font-medium">
-                {project.name} <Pill>{project.badge}</Pill>
+              <div className=" flex justify-between items-center text-sm font-medium">
+                <span>{project.name}</span>
+                {(project.liveDemo || project.github) && (
+                  <div className="mt-3 flex gap-3 justify-end">
+                    {project.liveDemo && (
+                      <a
+                        href={project.liveDemo}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs text-gray-700 hover:underline"
+                      >
+                        <Pill>Live Demo</Pill>
+                      </a>
+                    )}
+                    {project.github && (
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs text-gray-700 hover:underline"
+                      >
+                        <Pill>GitHub</Pill>
+                      </a>
+                    )}
+                  </div>
+                )}
               </div>
               <p className="mt-1 text-sm opacity-80">{project.description}</p>
               <div className="mt-2 flex flex-wrap gap-2">
