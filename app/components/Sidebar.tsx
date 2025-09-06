@@ -52,7 +52,7 @@ export function Sidebar() {
   return (
     <div
       className={cn(
-        "flex w-full flex-1 flex-col overflow-hidden rounded-md border border-neutral-200 bg-white md:flex-row",
+        "flex w-full flex-1 flex-col overflow-hidden bg-white md:flex-row",
         "min-h-screen"
       )}
     >
@@ -103,9 +103,9 @@ export const LogoIcon = () => {
 };
 
 const Dashboard = () => {
-  type TabKey = "General" | "github" | "leetcode";
+  type TabKey = "common" | "github" | "leetcode";
 
-  const [active, setActive] = React.useState<TabKey>("General");
+  const [active, setActive] = React.useState<TabKey>("common");
 
   return (
     <main className="flex-1 flex flex-col min-h-0">
@@ -137,39 +137,37 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className="mt-6 flex-1 flex flex-col min-h-0">
-        <div className="w-full max-w-md mx-auto px-2">
-          <div className="flex gap-2 overflow-x-auto pb-2">
-            {(
-              [
-                { key: "General", label: "General" },
-                { key: "github", label: "Github" },
-                { key: "leetcode", label: "Leetcode" },
-              ] as { key: TabKey; label: string }[]
-            ).map((t) => {
-              const isActive = active === t.key;
-              return (
-                <button
-                  key={t.key}
-                  onClick={() => setActive(t.key)}
-                  className={`rounded-lg border px-4 py-2 text-sm cursor-pointer whitespace-nowrap ${
-                    isActive
-                      ? "border-neutral-900 bg-white shadow-sm"
-                      : "border-neutral-200 bg-neutral-50"
-                  }`}
-                >
-                  {t.label}
-                </button>
-              );
-            })}
-          </div>
-
-          <section className="mt-6 p-3 rounded-xl border border-neutral-200 bg-neutral-50 flex-1 min-h-0">
-            {active === "General" && <CommonTab />}
-            {active === "github" && <GithubTab />}
-            {active === "leetcode" && <LeetcodeTab />}
-          </section>
+      <div className="mt-6 flex-1 flex flex-col min-h-0 p-2">
+        <div className="flex gap-2 overflow-x-auto pb-2">
+          {(
+            [
+              { key: "common", label: "Common" },
+              { key: "github", label: "Github" },
+              { key: "leetcode", label: "Leetcode" },
+            ] as { key: TabKey; label: string }[]
+          ).map((t) => {
+            const isActive = active === t.key;
+            return (
+              <button
+                key={t.key}
+                onClick={() => setActive(t.key)}
+                className={`rounded-lg border px-4 py-2 text-sm cursor-pointer whitespace-nowrap ${
+                  isActive
+                    ? "border-neutral-900 bg-white shadow-sm"
+                    : "border-neutral-200 bg-neutral-50"
+                }`}
+              >
+                {t.label}
+              </button>
+            );
+          })}
         </div>
+
+        <section className="mt-6 p-3 rounded-xl border border-neutral-200 bg-neutral-50 flex-1 min-h-0">
+          {active === "common" && <CommonTab />}
+          {active === "github" && <GithubTab />}
+          {active === "leetcode" && <LeetcodeTab />}
+        </section>
       </div>
     </main>
   );
